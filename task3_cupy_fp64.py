@@ -3,6 +3,13 @@ import numpy as np
 import time
 
 def benchmark_cupy_fp64(n, iterations):
+    # If input is a list/tuple of sizes, return a dict {size: times}
+    if isinstance(n, (list, tuple)):
+        results = {}
+        for size in n:
+            results[size] = benchmark_cupy_fp64(size, iterations)
+        return results
+
     # Generate random matrices on CPU using NumPy
     A_cpu = np.random.rand(n, n).astype(np.float64)
     B_cpu = np.random.rand(n, n).astype(np.float64)
